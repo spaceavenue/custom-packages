@@ -1,0 +1,27 @@
+pkgbase = clang-gccless
+	pkgdesc = Clang binary repackaged without GCC and pre-configured for LLVM+Mold
+	pkgver = 22.1.8
+	pkgrel = 1
+	url = https://clang.llvm.org/
+	arch = x86_64
+	license = Apache-2.0 WITH LLVM-exception
+	depends = llvm-libs
+	depends = compiler-rt
+	depends = libgcc
+	depends = libstdc++
+	depends = libc++
+	depends = libunwind
+	depends = libxml2
+	provides = clang=22.1.8
+	provides = clang-analyzer=22.1.8
+	provides = clang-tools-extra=22.1.8
+	conflicts = clang
+	conflicts = clang-analyzer
+	conflicts = clang-tools-extra
+	replaces = clang-analyzer
+	replaces = clang-tools-extra
+	options = !strip
+	source = https://archive.archlinux.org/packages/c/clang/clang-22.1.8-1-x86_64.pkg.tar.zst
+	sha256sums = SKIP
+
+pkgname = clang-gccless

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ "$*" == *"--version"* ]]; then
+    echo "ttfautohint 1.8.4"
+    exit 0
+fi
+# Intercept files: find any .ttf parameters and copy the unhinted source straight to the target destination
+TTF_FILES=()
+for arg in "$@"; do
+    [[ "$arg" == *.ttf ]] && TTF_FILES+=("$arg")
+done
+if [ "${#TTF_FILES[@]}" -ge 2 ]; then
+    cp "${TTF_FILES[0]}" "${TTF_FILES[1]}"
+fi
+exit 0
+
+

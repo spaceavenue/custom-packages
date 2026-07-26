@@ -1,0 +1,58 @@
+# Maintainer: spaceavenue
+pkgname=ttc-iosevka-collection
+_pkgname1=IosevkaSS06
+_pkgname2=IosevkaAile
+_pkgname3=IosevkaEtoile
+pkgver=34.7.0
+pkgrel=3
+pkgdesc="Custom builds of the Iosevka Aile and Iosevka Etoile fonts"
+arch=('any')
+url="https://github.com/be5invis/Iosevka"
+license=('OFL')
+depends=('fontconfig')
+makedepends=('nodejs' 'npm')
+provides=('ttf-font')
+source=("iosevka-main.tar.gz::"${url}"/archive/refs/heads/main.tar.gz"
+        'private-build-plans.toml'
+		'ttfautohint'
+)
+sha256sums=('SKIP' 'SKIP' 'SKIP')
+
+pkgver() {
+  cd "Iosevka-main"
+  node -p "require('./package.json').version"
+}
+
+prepare() {
+  cd "Iosevka-main"
+  cp "$srcdir/private-build-plans.toml" .
+
+  mkdir -p "$srcdir/bin"
+  cp "$srcdir/ttfautohint" "$srcdir/bin/"
+  chmod +x "$srcdir/bin/ttfautohint"
+
+  export PATH="$srcdir/bin:$PATH"
+  npm ci
+}
+
+build() {
+  cd "Iosevka-main"
+  npm run build -- ttc::"${_pkgname1}" --jCmd=12
+  npm run build -- ttc::"${_pkgname2}" --jCmd=12
+  npm run build -- ttc::"${_pkgname3}" --jCmd=12
+}
+
+package() {
+  cd "Iosevka-main"
+  install -d "$pkgdir/usr/share/fonts/TTF"
+
+  for src_dir in "dist/.ttc/IosevkaAile" "dist/.ttc/IosevkaEtoile" "dist/.ttc/IosevkaSS06"; do
+    for file in "$src_dir"/*.ttc; do
+	  filename="${file##*/}"
+	  install -Dm644 "$file" "$pkgdir/usr/share/fonts/TTF/${filename}"
+    done
+  done
+
+  install -d "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/"
+}

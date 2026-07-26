@@ -1,0 +1,26 @@
+pkgname=rustype
+pkgver=r1.ed2ef0b
+pkgrel=1
+pkgdesc="Minimal wtype clone in Rust."
+arch=('x86_64' 'aarch64')
+url=https://codeberg.org/spaceavenue/$pkgname
+license=()
+makedepends=('cargo')
+
+source=("${pkgname}::git+${url}.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$pkgname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd ${pkgname}
+  cargo +nightly build --release
+}
+
+package() {
+  cd ${pkgname}
+  install -Dm 755 target/release/${pkgname} "${pkgdir}/usr/bin/${pkgname}"
+}

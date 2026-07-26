@@ -1,0 +1,49 @@
+# Maintainer: spaceavenue
+pkgname=ttf-ibm-plex-custom
+pkgver=6.4.0
+pkgrel=1
+pkgdesc="Custom packed TTC font collections for IBM Plex (All Languages, Regular & Bold weights only)"
+arch=('any')
+url="https://github.com/IBM/plex"
+license=('OBSD')
+
+depends=('fontconfig')
+makedepends=('python-fonttools')
+
+provides=('ttf-ibm-plex')
+conflicts=('ttf-ibm-plex')
+
+source=("${pkgname}.zip::${url}/releases/download/v${pkgver}/TrueType.zip")
+sha256sums=('SKIP')
+
+build() {
+  cd TrueType
+
+  fonttools ttLib -o IBMPlexSans.ttc \
+    $(find . -name "IBMPlexSans-Regular.ttf") \
+    $(find . -name "IBMPlexSans-Bold.ttf") \
+    $(find . -name "IBMPlexSans-Italic.ttf") \
+    $(find . -name "IBMPlexSans-BoldItalic.ttf")
+
+  fonttools ttLib -o IBMPlexSerif.ttc \
+    $(find . -name "IBMPlexSerif-Regular.ttf") \
+    $(find . -name "IBMPlexSerif-Bold.ttf") \
+    $(find . -name "IBMPlexSerif-Italic.ttf") \
+    $(find . -name "IBMPlexSerif-BoldItalic.ttf")
+
+  _scripts=("Arabic" "Devanagari" "Hebrew" "JP" "KR" "TC" "Thai" "ThaiLooped")
+  for _script in "${_scripts[@]}"; do
+    fonttools ttLib -o "IBMPlexSans${_script}.ttc" \
+      $(find . -name "IBMPlexSans${_script}-Regular.ttf") \
+      $(find . -name "IBMPlexSans${_script}-Bold.ttf")
+  done
+}
+
+package() {
+  cd TrueType
+  
+  install -dm755 "$pkgdir/usr/share/fonts/TTF"
+  install -Dm644 ./*.ttc "$pkgdir"/usr/share/fonts/TTF/
+
+  install -Dm644 ../../LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

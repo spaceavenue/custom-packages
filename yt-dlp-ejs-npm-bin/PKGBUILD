@@ -1,0 +1,21 @@
+pkgname=yt-dlp-ejs-npm-bin
+_pkgname=yt-dlp-ejs
+pkgver=0.8.0
+pkgrel=1
+pkgdesc="Pre-built yt-dlp EJS plugins utilizing Node.js instead of Deno"
+arch=('any')
+url="https://github.com/yt-dlp/ejs"
+license=('Unlicense')
+depends=('nodejs' 'python')
+provides=('yt-dlp-ejs')
+conflicts=('yt-dlp-ejs')
+
+source=("https://github.com/yt-dlp/ejs/releases/download/${pkgver}/yt_dlp_ejs-${pkgver}-py3-none-any.whl")
+sha256sums=('SKIP')
+
+package() {
+  cd "$srcdir"
+  
+  local _pyver=$(python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+  python -m zipfile -e "yt_dlp_ejs-${pkgver}-py3-none-any.whl" "$pkgdir/usr/lib/python${_pyver}/site-packages/"
+}

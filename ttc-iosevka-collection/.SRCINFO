@@ -1,0 +1,17 @@
+pkgbase = ttc-iosevka-collection
+	pkgdesc = Custom builds of the Iosevka Aile and Iosevka Etoile fonts
+	pkgver = 34.7.0
+	pkgrel = 1
+	url = https://github.com/be5invis/Iosevka
+	arch = any
+	license = OFL
+	makedepends = nodejs
+	makedepends = npm
+	makedepends = ttfautohint
+	depends = fontconfig
+	source = iosevka-main.tar.gz::https://github.com/be5invis/Iosevka/archive/refs/heads/main.tar.gz
+	source = private-build-plans.toml
+	sha256sums = SKIP
+	sha256sums = SKIP
+
+pkgname = ttc-iosevka-collection

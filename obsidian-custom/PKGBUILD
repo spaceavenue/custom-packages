@@ -1,0 +1,29 @@
+pkgname=obsidian-custom
+_pkgname=obsidian
+pkgver=1.12.7
+pkgrel=3
+pkgdesc="A powerful knowledge base that works on top of a local folder of plain text Markdown files"
+arch=('x86_64')
+url="https://obsidian.md"
+license=('LicenseRef-Obsidian')
+depends=('fontconfig' 'bash' 'zlib' 'hicolor-icon-theme' 'electron')
+install=obsidian.install
+provides=($_pkgname)
+conflicts=($_pkgname)
+source=(
+  "${_pkgname}.tar.zst::https://archlinux.org/packages/extra/x86_64/obsidian/download"
+  "${_pkgname}.sh"
+)
+sha256sums=( 'SKIP' 'SKIP' )
+b2sums=( 'SKIP' 'SKIP' )
+
+package() {
+
+  # everything
+  cp -ar ./usr "$pkgdir"
+  
+  # Launcher
+  install -Dm755 "${_pkgname}.sh" "${pkgdir}/usr/bin/${_pkgname}"
+}
+
+# vim: ts=2 sw=2 et:

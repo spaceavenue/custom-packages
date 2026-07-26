@@ -1,0 +1,34 @@
+pkgname=vesktop-custom
+_pkgname=Vesktop
+_appname=vencord-desktop
+pkgver=1.6.5
+pkgrel=1
+arch=('x86_64')
+pkgdesc="A cross platform electron-based desktop app aiming to give you a snappier Discord experience with Vencord pre-installed."
+
+url="https://github.com/Vencord/Vesktop"
+license=('GPL-3.0-only')
+
+provides=("${pkgname%-custom}" "${_appname}")
+conflicts=("${pkgname%-custom}" "${_appname}")
+
+depends=('electron')
+optdepends=('speech-dispatcher: High-level device independent layer for speech synthesis interface')
+
+source=(
+	"${pkgname%-custom}-${pkgver}-x86_64.rpm::${url}/releases/download/v${pkgver}/${pkgname%-custom}-${pkgver}.x86_64.rpm" 
+	"${pkgname%-custom}.sh"
+)
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+    sed -i "s/\/opt\/${_pkgname}\///g" "${srcdir}/usr/share/applications/${pkgname%-custom}.desktop"
+}
+
+package() {
+    install -Dm755 "${srcdir}/${pkgname%-custom}.sh" "${pkgdir}/usr/bin/${pkgname%-custom}"
+    install -Dm644 "${srcdir}/opt/${_pkgname}/resources/app.asar" -t "${pkgdir}/usr/lib/${pkgname%-custom}"
+    install -Dm644 "${srcdir}/usr/share/applications/${pkgname%-custom}.desktop" -t "${pkgdir}/usr/share/applications"
+    install -Dm644 "${srcdir}/usr/share/icons/hicolor/scalable/apps/${pkgname%-custom}.svg" \
+        -t "${pkgdir}/usr/share/icons/hicolor/scalable/apps"
+}

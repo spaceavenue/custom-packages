@@ -1,5 +1,5 @@
 pkgname=rustbg
-pkgver=r4.6a5f7f2
+pkgver=r5.d7a854b
 pkgrel=1
 pkgdesc="Tiny, minimal wallpaper daemon for wayland."
 arch=('x86_64' 'aarch64')

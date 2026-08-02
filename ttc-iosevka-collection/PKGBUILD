@@ -3,8 +3,8 @@ pkgname=ttc-iosevka-collection
 _pkgname1=IosevkaSS06
 _pkgname2=IosevkaAile
 _pkgname3=IosevkaEtoile
-pkgver=34.7.0
-pkgrel=3
+pkgver=34.8.0
+pkgrel=1
 pkgdesc="Custom builds of the Iosevka Aile and Iosevka Etoile fonts"
 arch=('any')
 url="https://github.com/be5invis/Iosevka"
@@ -16,7 +16,9 @@ source=("iosevka-main.tar.gz::"${url}"/archive/refs/heads/main.tar.gz"
         'private-build-plans.toml'
 		'ttfautohint'
 )
-sha256sums=('SKIP' 'SKIP' 'SKIP')
+sha256sums=('578c86d4fba143cfed3f26c8c43f5986debed6a4ec23fe2793e83d4be5764d63'
+            'eb13bfa8cd0681987ecb473828a860d548c46f414c03f5818bf5e12e0a21c7af'
+            'b62bfc98e83bd2c59e8be2dd6af959c827ab59d8368f2d1458b85e39dcb78673')
 
 pkgver() {
   cd "Iosevka-main"

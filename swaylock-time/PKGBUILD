@@ -1,9 +1,10 @@
 pkgname=swaylock-time
+_pkgname=swaylock
 pkgver=1.8.6
 pkgrel=1
 pkgdesc='Screen locker for Wayland (with clock support)'
 arch=('x86_64')
-url="https://github.com/spaceavenue/swaylock"
+url="https://github.com/swaywm/swaylock"
 license=("MIT")
 depends=(
 "cairo"
@@ -20,19 +21,22 @@ makedepends=(
 "scdoc"
 "wayland-protocols"
 )
-provides=("${pkgname%-time}")
-conflicts=("${pkgname%-time}")
-source=("${pkgname}::git+${url}.git")
-b2sums=('SKIP')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+source=("${_pkgname}::git+${url}.git" "time.patch")
+b2sums=('SKIP' 'SKIP')
 
 build() {
-  arch-meson "$pkgname" build
+  pushd "${_pkgname}"
+  git apply ../"time.patch"
+  popd
+  arch-meson "${_pkgname}" build
   meson compile -C build
 }
 
 package() {
   meson install -C build --destdir "$pkgdir"
 
-  install -Dm644 "${pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-  install -Dm644 "${pkgname}/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+  install -Dm644 "${_pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 "${_pkgname}/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
 }

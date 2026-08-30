@@ -1,6 +1,6 @@
 pkgname=signal-desktop-custom
 _pkgname=signal-desktop
-pkgver=8.21.0
+pkgver=8.25.0
 pkgrel=1
 pkgdesc="Signal Private Messenger for Linux"
 license=('AGPL-3.0-only')
@@ -37,10 +37,8 @@ source=(
   "${_pkgname}.tar.zst::https://archlinux.org/packages/extra/x86_64/signal-desktop/download"
   "${_pkgname}.sh"
 )
-sha256sums=('eb8c3122843a3cef6f12ebd547bc16f7c9032bb7159236d3ed05579bc0662ded'
-            '86ef9bb446d8b3e9e60973cb3f04af792e3c4c4617b65a5733666f09fa9e4092')
-b2sums=('eb85ad9f50c9a7541e08c23f763e6bb5650773c58cad9b876a381c24da40771af583e7471f2c2d5096901c8bd2a87b7a16da1d93e8b1870878196161ac9eeef4'
-        '4da01e8f46515bec373a17e938fc3607754d3fc70763869a9a0152a762707437d023ff43b43c144565f7d54421d2d73ac96129fe865345aa00181dc54e9f7d1f')
+sha256sums=(SKIP SKIP)
+b2sums=(SKIP SKIP)
 
 prepare() {
 

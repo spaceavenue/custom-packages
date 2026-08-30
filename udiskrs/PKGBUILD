@@ -1,13 +1,12 @@
-pkgname=rustemp
-pkgver=r1.8857e72
+pkgname=udiskrs
+pkgver=r15.c23c738
 pkgrel=1
-pkgdesc="Tiny, minimal color temperature daemon for wayland."
+pkgdesc="UDisks2 mount manager"
 arch=('x86_64' 'aarch64')
-url=https://codeberg.org/spaceavenue/$pkgname
+url=https://github.com/spaceavenue/$pkgname
 license=()
 makedepends=('cargo')
-# depends=('')
-
+depends=('udisks2')
 source=("${pkgname}::git+${url}.git")
 sha256sums=('SKIP')
 
@@ -18,10 +17,10 @@ pkgver() {
 
 build() {
   cd ${pkgname}
-  cargo +nightly build --release
+  env RUSTFLAGS="-C target-cpu=native" cargo +nightly build --release
 }
 
 package() {
   cd ${pkgname}
-  install -Dm 755 target/x86_64-unknown-linux-musl/release/${pkgname} "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm 755 target/release/${pkgname} "${pkgdir}/usr/bin/${pkgname}"
 }

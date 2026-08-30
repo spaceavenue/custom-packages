@@ -1,6 +1,6 @@
 pkgname=obsidian-custom
 _pkgname=obsidian
-pkgver=1.13.7
+pkgver=1.13.4
 pkgrel=1
 pkgdesc="A powerful knowledge base that works on top of a local folder of plain text Markdown files"
 arch=('x86_64')
@@ -14,9 +14,9 @@ source=(
   "${_pkgname}.tar.zst::https://archlinux.org/packages/extra/x86_64/obsidian/download"
   "${_pkgname}.sh"
 )
-sha256sums=('SKIP'
+sha256sums=('42bb267b87450766eba267bcbd4a7a656918c02a88f5d63b2a33d11106860b7b'
             '65111c9b78df85da9ff2666c3fdc1aec8cef4adb3489394622d058a878cb2e92')
-b2sums=('SKIP'
+b2sums=('1c36322d25bd8451468e4cfe30142b5397e3a34a7473796a84d86f36881c09ee098d0cab6d35d429eb0adcb7895eb66773919042a4bb6a8c55aac872ec7885d0'
         '48e7be6c240fcde3ac87464e554113d2d2d6a09f0e90c4dc7bc008b7011b30adec9018c6ed0a0e3c0192ccb864fc7a6776a9e4b8fb5307ae78ad9b54df95efa7')
 
 package() {

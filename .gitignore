@@ -1,8 +1,12 @@
-niri-custom/niri
-rustbg/rustbg
-rustemp/rustemp
-swaylock-time/swaylock-time
-wtype-custom/wtype-custom
 *.zst
 *.gz
+*.tar
 udiskrs/udiskrs/
+wtype-custom/wtype-custom/
+imv-custom/imv/
+qoz/qoz/
+rustclip/rustclip/
+rusty-wl-utils/rusty-wl-utils/
+niri-custom/niri
+swaylock-time/swaylock
+wtype-custom/wtype

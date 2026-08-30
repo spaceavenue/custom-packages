@@ -1,6 +1,6 @@
 pkgname=niri-custom
 _pkgname=niri
-pkgver=26.04.r85.gdd75865
+pkgver=26.04.r36.g49fc611
 pkgrel=1
 pkgdesc="Scrollable-tiling Wayland compositor"
 arch=(x86_64)

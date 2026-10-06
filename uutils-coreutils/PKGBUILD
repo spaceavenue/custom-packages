@@ -1,6 +1,6 @@
 _pkgname=coreutils
 pkgname=uutils-$_pkgname-custom
-pkgver=0.9.0
+pkgver=0.12.0
 pkgrel=1
 pkgdesc='Cross-platform Rust rewrite of the GNU coreutils - drop-in replacement'
 
@@ -16,7 +16,7 @@ provides=('coreutils')
 conflicts=('coreutils')
 
 source=(${pkgname}-${pkgver}.tar.gz::${_url}/archive/refs/tags/${pkgver}.tar.gz)
-b2sums=('6e3f174250dbca54ce9328d01baec4c73d5192150862f079607f969a118d1cad96da63b7250ec4fb2687d0a20684c08e3369547c4fff9be153a0bca563a7675e')
+b2sums=('bdb49cfe10b216522b8cb6b5ef7b85427d2b24cb923a7dcd137f024eda062a073796e62e03df0353c45398c856b46737cba77a82ab5784678ed86da0a4faa8d7')
 
 export RUSTONIG_DYNAMIC_LIBONIG=1
 

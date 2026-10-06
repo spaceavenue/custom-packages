@@ -24,7 +24,8 @@ makedepends=(
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 source=("${_pkgname}::git+${url}.git" "time.patch")
-b2sums=('SKIP' 'SKIP')
+b2sums=('SKIP'
+        '49903798e62fada82fd96e885edcf9c5e8a5158ad71cb659a6c794233321ce39ff142a115e1cc39f04b40a9c5e716e8ba87190e18539cf7c76943ae4e3a35656')
 
 build() {
   pushd "${_pkgname}"

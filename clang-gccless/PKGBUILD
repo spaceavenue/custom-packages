@@ -1,5 +1,5 @@
 pkgname=clang-gccless
-pkgver=22.1.8
+pkgver=23.1.1
 pkgrel=1
 pkgdesc="Clang binary repackaged without GCC and pre-configured for LLVM+Mold"
 arch=('x86_64')
@@ -13,7 +13,7 @@ conflicts=('clang' 'clang-analyzer' 'clang-tools-extra')
 replaces=('clang-analyzer' 'clang-tools-extra')
 
 source=("https://archive.archlinux.org/packages/c/clang/clang-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst")
-sha256sums=('SKIP')
+sha256sums=('3f9c1b50705e8f9f23dc27a52be25e341288d93bf975b745462afa7e31cbc020')
 
 options=(!strip)
 
@@ -24,9 +24,12 @@ package() {
 
   mkdir -p "${pkgdir}"/etc/clang
   
+  # unwindlib=libunwind fails to link any throwing C++ under mold
+  # (undefined __gxx_personality_v0 / _Unwind_Resume - verified 2026-09-11);
+  # libgcc_s is already a mandatory system lib regardless of this choice.
   cat <<EOF > "${pkgdir}"/etc/clang/clang.cfg
 --rtlib=compiler-rt
---unwindlib=libunwind
+--unwindlib=libgcc
 -stdlib=libc++
 -fuse-ld=mold
 EOF

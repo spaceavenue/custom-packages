@@ -1,30 +1,69 @@
 pkgname=helix-custom
 _pkgname=helix
-pkgver=25.01.1.r26.7ac046a
-_pkgver=25.07.1
+pkgver=20260929.023219
 pkgrel=1
 pkgdesc="A text editor written in rust"
 url="https://helix-editor.com"
 license=("MPL-2.0")
 _git="https://github.com/helix-editor/${_pkgname}"
 arch=(x86_64)
-makedepends=('git' 'cargo')
+makedepends=('cargo')
 depends=()
 provides=('hx')
 conflicts=('helix')
 options=(!lto)
+
+# plain master-branch snapshot, no git history/clone involved at all.
+# pkgver is the tracked commit's date (YYYYMMDD.HHMMSS) - kept in sync by
+# pkg-build via nvchecker ([helix-custom]: source=github, date-based
+# tracking), same mechanism as the archpkg-sourced packages. No pkgver()
+# here on purpose: there's nothing local to derive it from once this is
+# just a tarball, and pkg-build's sed + updpkgsums already handle it.
 source=("${_pkgname}.tar.gz::${_git}/archive/refs/heads/master.tar.gz")
-sha256sums=('SKIP')
+sha256sums=('26142d96d2d29cda92e5d7d6996aee2434214d34a27d1431115e7d6fcc1fa810')
 
 _bin="hx"
 _lib_path="/usr/lib/${_pkgname}"
 _rt_path="${_lib_path}/runtime"
 
-
-pkgver() {
-    cd "${_pkgname}-master"
-    printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
+_grammars=(
+    bash
+    c
+    cmake
+    comment
+    cpp
+    css
+    diff
+    dockerfile
+    fish
+    git-config
+    git-rebase
+    gitattributes
+    gitcommit
+    gitignore
+    graphql
+    html
+    ini
+    javascript
+    json
+    json5
+    lua
+    make
+    markdown
+    markdown_inline
+    python
+    regex
+    requirements
+    ron
+    rust
+    scss
+    toml
+    tsx
+    typescript
+    typst
+    yaml
+    zig
+)
 
 prepare() {
     cat > "$_bin" << EOF
@@ -35,6 +74,12 @@ EOF
 
     cd "${_pkgname}-master"
     rm rust-toolchain.toml
+
+    # Restrict tree-sitter grammars to only the desired languages
+    local _grammar_list
+    _grammar_list=$(printf '"%s", ' "${_grammars[@]}")
+    sed -i "s|^use-grammars = .*|use-grammars = { only = [ ${_grammar_list%, } ] }|" languages.toml
+
     export CARGO_TARGET_DIR=target
     cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 }

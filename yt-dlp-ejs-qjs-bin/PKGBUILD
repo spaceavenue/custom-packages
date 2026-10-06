@@ -1,17 +1,17 @@
-pkgname=yt-dlp-ejs-npm-bin
+pkgname=yt-dlp-ejs-qjs-bin
 _pkgname=yt-dlp-ejs
 pkgver=0.8.0
 pkgrel=1
-pkgdesc="Pre-built yt-dlp EJS plugins utilizing Node.js instead of Deno"
+pkgdesc="Pre-built yt-dlp EJS plugins utilizing Quickjs instead of Deno"
 arch=('any')
 url="https://github.com/yt-dlp/ejs"
 license=('Unlicense')
-depends=('nodejs' 'python')
+depends=('quickjs-ng' 'python')
 provides=('yt-dlp-ejs')
 conflicts=('yt-dlp-ejs')
 
 source=("https://github.com/yt-dlp/ejs/releases/download/${pkgver}/yt_dlp_ejs-${pkgver}-py3-none-any.whl")
-sha256sums=('SKIP')
+sha256sums=('79300e5fca7f937a1eeede11f0456862c1b41107ce1d726871e0207424f4bdb4')
 
 package() {
   cd "$srcdir"

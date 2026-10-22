@@ -1,5 +1,5 @@
 pkgname=rusty-wl-utils
-pkgver=r61.34c5181
+pkgver=r62.d942329
 pkgrel=1
 pkgdesc="Tiny, minimal utilities for wayland"
 arch=('x86_64' 'aarch64')

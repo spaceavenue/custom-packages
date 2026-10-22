@@ -1,5 +1,5 @@
 pkgname=udiskrs
-pkgver=r15.c23c738
+pkgver=r16.4d40c29
 pkgrel=1
 pkgdesc="UDisks2 mount manager"
 arch=('x86_64' 'aarch64')

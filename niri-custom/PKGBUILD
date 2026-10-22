@@ -1,6 +1,6 @@
 pkgname=niri-custom
 _pkgname=niri
-pkgver=26.04.r160.g1f03391
+pkgver=26.04.r205.gaee25c9
 pkgrel=1
 pkgdesc="Scrollable-tiling Wayland compositor"
 arch=(x86_64)
@@ -20,7 +20,7 @@ optdepends=('fuzzel: application launcher similar to rofi drun mode'
             'polkit-gnome: when apps need to ask for root permissions')
 provides=("${_pkgname}=${pkgver}")
 conflicts=("${_pkgname}-bin" "${_pkgname}" "${_pkgname}-git")
-options=(!lto)
+# options=(!lto)
 source=("${_pkgname}::git+$url.git")
 b2sums=('SKIP')
 
@@ -55,6 +55,8 @@ build() {
 
   # Place the output in target relative to the current directory
   export CARGO_TARGET_DIR=target
+  
+  export RUSTFLAGS="${RUSTFLAGS} -C link-arg=-flto"
 
   cargo build --release
 

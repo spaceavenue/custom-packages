@@ -6,9 +6,9 @@ arch=('x86_64')
 url="https://clang.llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
 
-depends=('llvm-libs' 'compiler-rt' 'libgcc' 'libstdc++' 'libc++' 'libunwind' 'libxml2')
+depends=('llvm-libs' 'compiler-rt' 'libgcc' 'libxml2')
 
-provides=("clang=$pkgver" "clang-analyzer=$pkgver" "clang-tools-extra=$pkgver")
+provides=("clang=$pkgver" "clang-analyzer=$pkgver" "clang-tools-extra=$pkgver" "cc")
 conflicts=('clang' 'clang-analyzer' 'clang-tools-extra')
 replaces=('clang-analyzer' 'clang-tools-extra')
 
@@ -21,46 +21,32 @@ package() {
   cd "$srcdir"
 
   cp -a usr "${pkgdir}"/
-
-  mkdir -p "${pkgdir}"/etc/clang
+  ln -sf clang "${pkgdir}/usr/bin/cc"
+  mkdir -p "${pkgdir}/etc/clang"
   
-  # unwindlib=libunwind fails to link any throwing C++ under mold
-  # (undefined __gxx_personality_v0 / _Unwind_Resume - verified 2026-09-11);
-  # libgcc_s is already a mandatory system lib regardless of this choice.
-  cat <<EOF > "${pkgdir}"/etc/clang/clang.cfg
+  cat << EOF > "${pkgdir}"/etc/clang/clang.cfg
 --rtlib=compiler-rt
 --unwindlib=libgcc
--stdlib=libc++
 -fuse-ld=mold
 EOF
 
   ln -s clang.cfg "${pkgdir}"/etc/clang/clang++.cfg
   ln -s clang.cfg "${pkgdir}"/etc/clang/cc.cfg
 
-  mv "${pkgdir}"/usr/bin/clang "${pkgdir}"/usr/bin/clang-real
-
-  cat <<'EOF' > "${pkgdir}"/usr/bin/clang
-#!/bin/sh
-TARGET_NAME=$(basename "$0")
-
-exec -a "$TARGET_NAME" /usr/bin/clang-real --config "/etc/clang/${TARGET_NAME}.cfg" "$@"
-EOF
-
-  chmod +x "${pkgdir}"/usr/bin/clang
-
-  chmod +x "${pkgdir}"/usr/bin/clang
-
-  rm -f "${pkgdir}"/usr/bin/clang++ "${pkgdir}"/usr/bin/cc
-  ln -s clang "${pkgdir}"/usr/bin/clang++
-  ln -s clang "${pkgdir}"/usr/bin/cc
+  ln -sf /etc/clang/clang.cfg   "${pkgdir}"/usr/bin/clang.cfg
+  ln -sf /etc/clang/clang++.cfg "${pkgdir}"/usr/bin/clang++.cfg
+  ln -sf /etc/clang/cc.cfg      "${pkgdir}"/usr/bin/cc.cfg
+  ln -sf /etc/clang/clang.cfg   "${pkgdir}"/usr/bin/x86_64-pc-linux-gnu.cfg 
 
   local clang_major="${pkgver%%.*}"
+  local rt_dir="${pkgdir}/usr/lib/clang/${clang_major}/lib/x86_64-pc-linux-gnu"
+  mkdir -p "$rt_dir"
   
-  ln -s "clang/${clang_major}/lib/linux/clang_rt.crtbegin-x86_64.o" "$pkgdir/usr/lib/crtbegin.o"
-  ln -s "clang/${clang_major}/lib/linux/clang_rt.crtbegin-x86_64.o" "$pkgdir/usr/lib/crtbeginS.o"
-  ln -s "clang/${clang_major}/lib/linux/clang_rt.crtbegin-x86_64.o" "$pkgdir/usr/lib/crtbeginT.o"
-  ln -s "clang/${clang_major}/lib/linux/clang_rt.crtend-x86_64.o" "$pkgdir/usr/lib/crtend.o"
-  ln -s "clang/${clang_major}/lib/linux/clang_rt.crtend-x86_64.o" "$pkgdir/usr/lib/crtendS.o"
+  ln -s clang_rt.crtbegin.o "${rt_dir}/crtbegin.o"
+  ln -s clang_rt.crtbegin.o "${rt_dir}/crtbeginS.o"
+  ln -s clang_rt.crtbegin.o "${rt_dir}/crtbeginT.o"
+  ln -s clang_rt.crtend.o   "${rt_dir}/crtend.o"
+  ln -s clang_rt.crtend.o   "${rt_dir}/crtendS.o"
 
-  ln -s libgcc_s.so.1 "${pkgdir}"/usr/lib/libgcc_s.so
+  ln -s /usr/lib/libgcc_s.so.1 "${rt_dir}/libgcc_s.so"
 }

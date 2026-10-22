@@ -1,5 +1,5 @@
 pkgname=zed-custom
-pkgver=1.24.4
+pkgver=1.25.2
 pkgrel=1
 pkgdesc="A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter (repackaged, nodejs/npm made optional)"
 arch=('x86_64')
@@ -18,7 +18,7 @@ provides=("zed=$pkgver")
 conflicts=('zed')
 
 source=("https://archive.archlinux.org/packages/z/zed/zed-${pkgver}-${pkgrel}-${arch}.pkg.tar.zst")
-sha256sums=('136d7aee2d100196ff468b16adf69a539784731e68dbc46ab57ebb0c40926675')
+sha256sums=('60606ae7a0ce8740710e58dd70bd3b442f28b228a7ed95c45c8ff5ed5d05de76')
 
 options=(!strip !debug)
 

@@ -1,11 +1,6 @@
-# Maintainer: spaceavenue <spaceavenue@proton.me>
-#
-# Split package:
-#   qoz     - libqoz.so/.a + qoz.h + pkgconfig file, for other software (e.g. imv) to link against
-#   qoz-cli - the standalone `qoz` command-line converter (image <-> .qoz)
-
 pkgbase=qoz
-pkgname=('qoz' 'qoz-cli')
+pkgname=('qoz')
+# pkgname=('qoz' 'qoz-cli')
 pkgver=r24.549c7b6
 pkgrel=1
 pkgdesc="Minimal image format storing zstd-compressed raw images, optimized for decode speed"
